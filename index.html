@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мой сайт</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg: #f7f5f0;
+--text: #1a1a1a;
+--muted: #999;
+--accent: #c8a96e;
+--line: #e0dbd2;
+--white: #ffffff;
+--card: #ffffff;
+--block-study: #e8e4dc;
+--block-sport: #dce8e0;
+--block-rest: #e4dce8;
+--block-walk: #dce4e8;
+--block-food: #e8dcd8;
+--block-sleep: #e0e8dc;
+--block-music: #e8e0dc;
+--block-school: #dce0e8;
+--block-law: #e8dcdc;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; font-weight:300; min-height:100vh; }
+
+/* MODE SWITCHER */
+
+
+/* HEADER */
+header {
+padding:28px 48px 24px;
+border-bottom:1px solid var(--line);
+display:grid;
+grid-template-columns:1fr 1fr;
+align-items:end;
+gap:24px;
+}
+.title-block h1 { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; letter-spacing:-1px; line-height:1; }
+.title-block p { margin-top:6px; font-size:10px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; }
+.header-cd { text-align:center; padding:12px 20px; border:1px solid var(--line); border-radius:6px; background:var(--white); }
+.header-cd-num { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--accent); line-height:1; }
+.header-cd-label { font-size:10px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:3px; }
+.meta { text-align:right; font-size:11px; color:var(--muted); line-height:2; letter-spacing:.5px; }
+.meta span { color:var(--accent); }
+
+/* MAIN NAV */
+.main-nav { display:flex; padding:0 48px; border-bottom:1px solid var(--line); overflow-x:auto; }
+.nav-btn {
+padding:13px 20px; font-family:'DM Mono',monospace; font-size:10px; font-weight:300;
+letter-spacing:2px; text-transform:uppercase; background:none; border:none;
+border-bottom:2px solid transparent; color:var(--muted); cursor:pointer;
+transition:all .2s; margin-bottom:-1px; white-space:nowrap;
+}
+.nav-btn:hover { color:var(--text); }
+.nav-btn.active { color:var(--text); border-bottom-color:var(--accent); }
+
+/* PAGES */
+.page { display:none; }
+.page.active { display:block; }
+
+/* MODE CONTENT */
+.mode-content { display:none; }
+.mode-content.active { display:block; }
+
+/* SCHEDULE */
+.days-nav { display:flex; padding:0 48px; border-bottom:1px solid var(--line); overflow-x:auto; }
+.day-btn {
+padding:11px 18px; font-family:'DM Mono',monospace; font-size:10px; font-weight:300;
+letter-spacing:2px; text-transform:uppercase; background:none; border:none;
+border-bottom:2px solid transparent; color:var(--muted); cursor:pointer;
+transition:all .2s; margin-bottom:-1px; white-space:nowrap;
+}
+.day-btn:hover { color:var(--text); }
+.day-btn.active { color:var(--text); border-bottom-color:var(--accent); }
+.day-btn.weekend { color:#b5a8a8; }
+.day-btn.weekend.active { color:var(--text); }
+
+.schedule-grid { display:grid; grid-template-columns:130px 1fr; }
+.timeline { border-right:1px solid var(--line); padding:24px 0; }
+.time-slot { height:64px; display:flex; align-items:flex-start; padding:0 16px; position:relative; }
+.time-slot::after { content:''; position:absolute; right:0; top:0; width:6px; height:1px; background:var(--line); }
+.time-label { font-size:10px; color:var(--muted); letter-spacing:1px; }
+.schedule-content { padding:24px 40px; }
+.day-view { display:none; }
+.day-view.active { display:block; }
+
+.block { border-radius:4px; padding:11px 15px; margin-bottom:6px; transition:transform .15s,box-shadow .15s; cursor:default; }
+.block:hover { transform:translateX(4px); box-shadow:-3px 0 0 var(--accent); }
+.block-time { font-size:10px; color:var(--muted); letter-spacing:1px; margin-bottom:2px; }
+.block-title { font-size:13px; font-weight:400; letter-spacing:.3px; }
+.block-sub { font-size:10px; color:var(--muted); margin-top:2px; }
+.block.study { background:var(--block-study); }
+.block.sport { background:var(--block-sport); }
+.block.rest { background:var(--block-rest); }
+.block.walk { background:var(--block-walk); }
+.block.food { background:var(--block-food); }
+.block.sleep { background:var(--block-sleep); }
+.block.music { background:var(--block-music); }
+.block.school { background:var(--block-school); }
+.block.law { background:var(--block-law); }
+.daily-tag { display:inline-block; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); margin-top:2px; }
+
+.free-day { display:flex; flex-direction:column; align-items:center; justify-content:center; height:240px; gap:10px; }
+.free-day .big { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--muted); }
+.free-day .small { font-size:10px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; }
+
+.june-note { margin-top:10px; padding:10px 14px; border:1px dashed var(--line); border-radius:4px; font-size:11px; color:var(--muted); }
+.june-note span { color:var(--accent); }
+
+.legend { display:flex; gap:14px; padding:16px 48px; border-top:1px solid var(--line); flex-wrap:wrap; }
+.legend-item { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+.legend-dot { width:8px; height:8px; border-radius:2px; }
+
+/* MONTH SWITCHER (summer) */
+.month-nav { display:flex; gap:0; padding:16px 48px 0; }
+.month-btn {
+padding:7px 18px; font-family:'DM Mono',monospace; font-size:10px; font-weight:300;
+letter-spacing:2px; text-transform:uppercase; background:none;
+border:1px solid var(--line); color:var(--muted); cursor:pointer; transition:all .2s;
+}
+.month-btn:first-child { border-radius:4px 0 0 4px; }
+.month-btn:last-child { border-radius:0 4px 4px 0; border-left:none; }
+.month-btn.active { background:var(--accent); border-color:var(--accent); color:white; }
+.month-content { display:none; }
+.month-content.active { display:block; }
+
+/* TRACKER */
+.section-page { padding:32px 48px; }
+.section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+.section-title { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; }
+.week-nav { display:flex; align-items:center; gap:10px; font-size:11px; color:var(--muted); }
+.week-nav button { background:none; border:1px solid var(--line); border-radius:3px; padding:5px 10px; cursor:pointer; font-family:'DM Mono',monospace; font-size:11px; color:var(--text); transition:border-color .2s; }
+.week-nav button:hover { border-color:var(--accent); }
+
+.tracker-grid { border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--white); }
+.tracker-row { display:grid; grid-template-columns:160px repeat(7,1fr); border-bottom:1px solid var(--line); }
+.tracker-row:last-child { border-bottom:none; }
+.tracker-row.header-row { background:var(--bg); }
+.tracker-cell { padding:9px 6px; border-right:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:10px; letter-spacing:1px; color:var(--muted); text-transform:uppercase; min-height:42px; }
+.tracker-cell:last-child { border-right:none; }
+.tracker-cell.subject { justify-content:flex-start; padding-left:12px; font-size:11px; color:var(--text); text-transform:none; letter-spacing:.3px; }
+.tracker-cell.subject .dot { width:6px; height:6px; border-radius:50%; margin-right:7px; flex-shrink:0; }
+.tracker-cell.sunday { background:#faf9f6; }
+.check-btn { width:20px; height:20px; border-radius:3px; border:1.5px solid var(--line); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:11px; color:transparent; transition:all .15s; }
+.check-btn:hover { border-color:var(--accent); }
+.check-btn.checked { background:var(--accent); border-color:var(--accent); color:white; }
+.check-btn.na { background:#f0ede8; border-color:#e0dbd2; cursor:default; color:#ccc; }
+.progress-row { margin-top:14px; display:flex; gap:10px; align-items:center; font-size:11px; color:var(--muted); }
+.progress-bar { flex:1; height:3px; background:var(--line); border-radius:2px; overflow:hidden; }
+.progress-fill { height:100%; background:var(--accent); border-radius:2px; transition:width .3s; }
+
+/* LISTS (goals, books, films, series, podcasts) */
+.add-btn { padding:8px 16px; background:none; border:1px solid var(--line); border-radius:4px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; color:var(--text); cursor:pointer; transition:border-color .2s; white-space:nowrap; }
+.add-btn:hover { border-color:var(--accent); }
+.list-items { display:flex; flex-direction:column; gap:7px; }
+.list-item { display:flex; align-items:center; gap:11px; padding:12px 16px; background:var(--white); border:1px solid var(--line); border-radius:6px; transition:border-color .2s; }
+.list-item:hover { border-color:var(--accent); }
+.list-item.done .item-text { text-decoration:line-through; opacity:.5; }
+.item-check { width:19px; height:19px; border-radius:50%; border:1.5px solid var(--line); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:10px; color:transparent; transition:all .15s; }
+.item-check:hover { border-color:var(--accent); }
+.item-check.checked { background:var(--accent); border-color:var(--accent); color:white; }
+.item-check.square { border-radius:3px; }
+.item-icon { font-size:13px; flex-shrink:0; }
+.item-text { flex:1; font-size:13px; outline:none; border:none; background:none; font-family:'DM Mono',monospace; font-weight:300; color:var(--text); min-width:0; }
+.item-delete { background:none; border:none; cursor:pointer; color:var(--muted); font-size:15px; padding:2px 5px; opacity:0; transition:color .15s; }
+.list-item:hover .item-delete { opacity:1; }
+.item-delete:hover { color:#c0392b; }
+.empty-state { text-align:center; padding:48px 20px; color:var(--muted); font-size:11px; letter-spacing:1px; }
+.list-stats { margin-top:16px; font-size:11px; color:var(--muted); padding-top:14px; border-top:1px solid var(--line); }
+.list-stats span { color:var(--accent); }
+
+/* FINANCE */
+.finance-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+.finance-card { background:var(--white); border:1px solid var(--line); border-radius:8px; padding:20px; }
+.finance-card h3 { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+.finance-amount { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; color:var(--accent); }
+.finance-sub { font-size:10px; color:var(--muted); margin-top:3px; }
+.finance-input-row { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+.finance-input-row input, .finance-input-row select {
+font-family:'DM Mono',monospace; font-size:11px; font-weight:300;
+background:none; border:none; border-bottom:1px solid var(--line);
+padding:5px 3px; outline:none; color:var(--text); transition:border-color .2s;
+}
+.finance-input-row input:focus, .finance-input-row select:focus { border-color:var(--accent); }
+.finance-input-row input[type=number] { width:100px; }
+.finance-input-row input[type=text] { flex:1; min-width:100px; }
+.finance-input-row button { padding:6px 14px; background:none; border:1px solid var(--line); border-radius:3px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; color:var(--text); cursor:pointer; transition:border-color .2s; }
+.finance-input-row button:hover { border-color:var(--accent); }
+.tx-list { margin-top:14px; display:flex; flex-direction:column; gap:6px; max-height:200px; overflow-y:auto; }
+.tx-item { display:flex; justify-content:space-between; align-items:center; font-size:11px; padding:7px 10px; background:var(--bg); border-radius:4px; }
+.tx-item .tx-desc { color:var(--text); }
+.tx-item .tx-amt { font-weight:400; }
+.tx-item .tx-amt.income { color:#5a9e6f; }
+.tx-item .tx-amt.expense { color:#c0392b; }
+.tx-item .tx-del { background:none; border:none; cursor:pointer; color:var(--muted); font-size:13px; opacity:0; transition:opacity .15s; }
+.tx-item:hover .tx-del { opacity:1; }
+
+/* SAVINGS GOAL */
+.savings-goal { background:var(--white); border:1px solid var(--line); border-radius:8px; padding:20px; margin-bottom:16px; }
+.savings-goal h3 { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+.savings-goal-name { font-size:14px; margin-bottom:6px; }
+.savings-bar { height:4px; background:var(--line); border-radius:2px; overflow:hidden; margin:8px 0; }
+.savings-fill { height:100%; background:var(--accent); border-radius:2px; transition:width .3s; }
+.savings-nums { font-size:11px; color:var(--muted); }
+.savings-nums span { color:var(--accent); }
+
+/* COUNTDOWNS */
+.cd-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; margin-bottom:20px; }
+.cd-card { background:var(--white); border:1px solid var(--line); border-radius:8px; padding:20px 18px; position:relative; transition:border-color .2s; }
+.cd-card:hover { border-color:var(--accent); }
+.cd-num { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:var(--accent); line-height:1; }
+.cd-unit { font-size:10px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+.cd-name { font-size:12px; color:var(--text); margin-top:8px; }
+.cd-date { font-size:10px; color:var(--muted); margin-top:2px; }
+.cd-del { position:absolute; top:8px; right:10px; background:none; border:none; cursor:pointer; color:var(--muted); font-size:15px; opacity:0; transition:color .15s; }
+.cd-card:hover .cd-del { opacity:1; }
+.cd-del:hover { color:#c0392b; }
+.cd-past { color:var(--muted) !important; }
+.cd-form { display:flex; gap:10px; align-items:center; flex-wrap:wrap; padding:16px; background:var(--white); border:1px solid var(--line); border-radius:6px; }
+.cd-form input { font-family:'DM Mono',monospace; font-size:11px; font-weight:300; background:none; border:none; border-bottom:1px solid var(--line); padding:5px 3px; outline:none; color:var(--text); transition:border-color .2s; }
+.cd-form input:focus { border-color:var(--accent); }
+.cd-form input[type=text] { flex:1; min-width:130px; }
+.cd-form input[type=date] { min-width:130px; }
+.cd-form button { padding:7px 14px; background:none; border:1px solid var(--line); border-radius:4px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; color:var(--text); cursor:pointer; transition:border-color .2s; white-space:nowrap; }
+.cd-form button:hover { border-color:var(--accent); }
+
+/* DIARY */
+.diary-nav { display:flex; align-items:center; gap:12px; }
+.diary-nav button { background:none; border:1px solid var(--line); border-radius:3px; padding:5px 10px; cursor:pointer; font-family:'DM Mono',monospace; font-size:11px; color:var(--text); transition:border-color .2s; }
+.diary-nav button:hover { border-color:var(--accent); }
+.diary-nav span { font-size:11px; color:var(--muted); min-width:120px; text-align:center; }
+.diary-card { background:var(--white); border:1px solid var(--line); border-radius:8px; padding:24px; margin-top:0; }
+.diary-mood { display:flex; gap:8px; margin-bottom:20px; }
+.mood-btn { width:36px; height:36px; border-radius:50%; border:2px solid var(--line); background:none; cursor:pointer; font-size:18px; transition:all .15s; display:flex; align-items:center; justify-content:center; }
+.mood-btn:hover { border-color:var(--accent); transform:scale(1.1); }
+.mood-btn.selected { border-color:var(--accent); background:#fdf6ec; }
+.diary-label { font-size:10px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+.diary-textarea { width:100%; font-family:'DM Mono',monospace; font-size:12px; font-weight:300; color:var(--text); background:var(--bg); border:1px solid var(--line); border-radius:4px; padding:12px; outline:none; resize:none; transition:border-color .2s; margin-bottom:16px; }
+.diary-textarea:focus { border-color:var(--accent); }
+.diary-save { padding:8px 20px; background:none; border:1px solid var(--line); border-radius:4px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; color:var(--text); cursor:pointer; transition:border-color .2s; }
+.diary-save:hover { border-color:var(--accent); }
+.diary-saved { font-size:10px; color:var(--accent); margin-left:10px; opacity:0; transition:opacity .3s; }
+
+/* DATE DICTIONARY */
+.dict-search { width:100%; font-family:'DM Mono',monospace; font-size:12px; font-weight:300; background:var(--white); border:1px solid var(--line); border-radius:4px; padding:10px 14px; outline:none; color:var(--text); transition:border-color .2s; margin-bottom:16px; }
+.dict-search:focus { border-color:var(--accent); }
+.dict-add-form { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+.dict-add-form input { font-family:'DM Mono',monospace; font-size:11px; font-weight:300; background:none; border:none; border-bottom:1px solid var(--line); padding:5px 3px; outline:none; color:var(--text); transition:border-color .2s; }
+.dict-add-form input:focus { border-color:var(--accent); }
+.dict-add-form input[type=text]:first-child { width:120px; }
+.dict-add-form input[type=text]:last-of-type { flex:1; min-width:150px; }
+.dict-list { display:flex; flex-direction:column; gap:6px; }
+.dict-item { display:flex; align-items:center; gap:14px; padding:12px 16px; background:var(--white); border:1px solid var(--line); border-radius:6px; transition:border-color .2s; }
+.dict-item:hover { border-color:var(--accent); }
+.dict-date { font-size:11px; color:var(--accent); min-width:90px; font-weight:400; }
+.dict-event { flex:1; font-size:12px; }
+.dict-del { background:none; border:none; cursor:pointer; color:var(--muted); font-size:15px; opacity:0; transition:color .15s; }
+.dict-item:hover .dict-del { opacity:1; }
+.dict-del:hover { color:#c0392b; }
+
+/* IDEAS */
+.ideas-tabs { display:flex; gap:0; margin-bottom:20px; }
+.ideas-tab { padding:8px 20px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; background:none; border:1px solid var(--line); color:var(--muted); cursor:pointer; transition:all .2s; }
+.ideas-tab:first-child { border-radius:4px 0 0 4px; }
+.ideas-tab:last-child { border-radius:0 4px 4px 0; border-left:none; }
+.ideas-tab.active { background:var(--accent); border-color:var(--accent); color:white; }
+.ideas-panel { display:none; }
+.ideas-panel.active { display:block; }
+.ideas-add { display:flex; gap:10px; margin-bottom:16px; }
+.ideas-add input { flex:1; font-family:'DM Mono',monospace; font-size:12px; font-weight:300; background:var(--white); border:1px solid var(--line); border-radius:4px; padding:9px 12px; outline:none; color:var(--text); transition:border-color .2s; }
+.ideas-add input:focus { border-color:var(--accent); }
+.idea-item { padding:14px 16px; background:var(--white); border:1px solid var(--line); border-radius:6px; margin-bottom:7px; display:flex; align-items:flex-start; gap:10px; transition:border-color .2s; }
+.idea-item:hover { border-color:var(--accent); }
+.idea-item .idea-q { flex:1; font-size:12px; line-height:1.5; }
+.idea-item .idea-del { background:none; border:none; cursor:pointer; color:var(--muted); font-size:15px; opacity:0; padding:0 4px; }
+.idea-item:hover .idea-del { opacity:1; }
+.idea-item .idea-del:hover { color:#c0392b; }
+.idea-answer { width:100%; font-family:'DM Mono',monospace; font-size:11px; font-weight:300; color:var(--muted); background:var(--bg); border:none; border-top:1px solid var(--line); padding:8px 0 0; outline:none; resize:none; margin-top:8px; }
+
+/* SCHOOL SCHEDULE specific */
+.school-block { border-radius:4px; padding:10px 15px; margin-bottom:5px; background:var(--block-school); }
+.school-block:hover { transform:translateX(4px); box-shadow:-3px 0 0 var(--accent); }
+.school-block .block-time { font-size:10px; color:var(--muted); margin-bottom:2px; }
+.school-block .block-title { font-size:13px; font-weight:400; }
+.school-block .block-room { font-size:10px; color:var(--muted); margin-top:1px; }
+
+@media(max-width:700px){
+header { padding:20px 24px; grid-template-columns:1fr; gap:12px; }
+.title-block h1 { font-size:36px; }
+.meta { text-align:left; }
+.main-nav,.days-nav { padding:0 16px; }
+.month-nav { padding:12px 16px 0; }
+.schedule-grid { grid-template-columns:70px 1fr; }
+.time-slot { padding:0 8px; }
+.schedule-content { padding:16px; }
+.section-page { padding:24px 16px; }
+.legend { padding:14px 16px; }
+.tracker-row { grid-template-columns:110px repeat(7,1fr); }
+.finance-grid { grid-template-columns:1fr; }
+.cd-grid { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+
+
+<!-- HEADER -->
+<header>
+<div class="title-block">
+<h1 id="headerTitle">Лето 2026</h1>
+<p id="headerSub">личное расписание</p>
+</div>
+
+<div class="meta" id="headerMeta">
+подъём <span>09:00</span><br>
+учёба <span>5–6 ч / день</span><br>
+прогулка <span>каждый день</span>
+</div>
+</header>
+
+<!-- ═══════════════ SUMMER MODE ═══════════════ -->
+<div id="mode-summer">
+<nav class="main-nav">
+<button class="nav-btn active" onclick="switchPage('s-schedule',this,'summer')">Расписание</button>
+<button class="nav-btn" onclick="switchPage('s-tracker',this,'summer')">Трекер</button>
+<button class="nav-btn" onclick="switchPage('s-diary',this,'summer')">Дневник</button>
+<button class="nav-btn" onclick="switchPage('s-goals',this,'summer')">Цели</button>
+<button class="nav-btn" onclick="switchPage('s-books',this,'summer')">Книги</button>
+<button class="nav-btn" onclick="switchPage('s-films',this,'summer')">Фильмы</button>
+<button class="nav-btn" onclick="switchPage('s-series',this,'summer')">Сериалы</button>
+<button class="nav-btn" onclick="switchPage('s-finance',this,'summer')">Финансы</button>
+<button class="nav-btn" onclick="switchPage('s-ideas',this,'summer')">Идеи</button>
+<button class="nav-btn" onclick="switchPage('s-dates',this,'summer')">Даты</button>
+</nav>
+
+<!-- РАСПИСАНИЕ ЛЕТО -->
+<div class="page active" id="s-schedule">
+<div class="month-nav">
+<button class="month-btn active" onclick="switchMonth('june',this)">Июнь</button>
+<button class="month-btn" onclick="switchMonth('july',this)">Июль–Август</button>
+</div>
+
+<!-- ИЮНЬ -->
+<div class="month-content active" id="month-june">
+<nav class="days-nav">
+<button class="day-btn active" onclick="switchDay('j-mon',this)">Пн</button>
+<button class="day-btn" onclick="switchDay('j-tue',this)">Вт</button>
+<button class="day-btn" onclick="switchDay('j-wed',this)">Ср</button>
+<button class="day-btn" onclick="switchDay('j-thu',this)">Чт</button>
+<button class="day-btn" onclick="switchDay('j-fri',this)">Пт</button>
+<button class="day-btn weekend" onclick="switchDay('j-sat',this)">Сб</button>
+<button class="day-btn weekend" onclick="switchDay('j-sun',this)">Вс</button>
+</nav>
+<div class="schedule-grid">
+<div class="timeline">
+<div class="time-slot"><span class="time-label">09:00</span></div>
+<div class="time-slot"><span class="time-label">09:30</span></div>
+<div class="time-slot"><span class="time-label">10:00</span></div>
+<div class="time-slot"><span class="time-label">14:00</span></div>
+<div class="time-slot"><span class="time-label">14:30</span></div>
+<div class="time-slot"><span class="time-label">15:30</span></div>
+<div class="time-slot"><span class="time-label">16:30</span></div>
+<div class="time-slot"><span class="time-label">19:00</span></div>
+<div class="time-slot"><span class="time-label">19:30</span></div>
+<div class="time-slot"><span class="time-label">21:00</span></div>
+<div class="time-slot"><span class="time-label">22:30</span></div>
+</div>
+<div class="schedule-content">
+<!-- Пн-Пт июнь одинаковые -->
+<div class="day-view active" id="j-mon">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block law"><div class="block-time">10:00 — 14:00</div><div class="block-title">Олимпиадное право</div><div class="block-sub">занятие с учителем — весь июнь</div></div>
+<div class="block study"><div class="block-time">14:00 — 14:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">14:30 — 15:30</div><div class="block-title">История</div></div>
+<div class="block study"><div class="block-time">15:30 — 16:30</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">16:30 — 17:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">17:30 — 19:00</div><div class="block-title">Прогулка</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block rest"><div class="block-time">19:30 — 21:00</div><div class="block-title">Отдых</div><div class="block-sub">компьютер, телефон</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="j-tue">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block law"><div class="block-time">10:00 — 14:00</div><div class="block-title">Олимпиадное право</div><div class="block-sub">занятие с учителем — весь июнь</div></div>
+<div class="block food"><div class="block-time">14:00 — 14:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">14:30 — 15:30</div><div class="block-title">Турецкий</div></div>
+<div class="block music"><div class="block-time">15:30 — 16:30</div><div class="block-title">Музыка</div><div class="block-sub">игра + теория</div></div>
+<div class="block study"><div class="block-time">16:30 — 17:00</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">17:00 — 17:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">17:30 — 19:00</div><div class="block-title">Прогулка</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block rest"><div class="block-time">19:30 — 21:00</div><div class="block-title">Отдых</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="j-wed">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block law"><div class="block-time">10:00 — 14:00</div><div class="block-title">Олимпиадное право</div><div class="block-sub">занятие с учителем — весь июнь</div></div>
+<div class="block food"><div class="block-time">14:00 — 14:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">14:30 — 15:30</div><div class="block-title">История</div></div>
+<div class="block study"><div class="block-time">15:30 — 16:30</div><div class="block-title">Обществознание</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">16:30 — 17:30</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">17:30 — 19:00</div><div class="block-title">Прогулка</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block study"><div class="block-time">19:30 — 20:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block rest"><div class="block-time">20:30 — 22:00</div><div class="block-title">Отдых</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="j-thu">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block law"><div class="block-time">10:00 — 14:00</div><div class="block-title">Олимпиадное право</div><div class="block-sub">занятие с учителем — весь июнь</div></div>
+<div class="block food"><div class="block-time">14:00 — 14:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">14:30 — 15:30</div><div class="block-title">Турецкий</div></div>
+<div class="block study"><div class="block-time">15:30 — 16:30</div><div class="block-title">Обществознание</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">16:30 — 17:30</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">17:30 — 19:00</div><div class="block-title">Прогулка</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block study"><div class="block-time">19:30 — 20:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block rest"><div class="block-time">20:30 — 22:00</div><div class="block-title">Отдых</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="j-fri">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block law"><div class="block-time">10:00 — 14:00</div><div class="block-title">Олимпиадное право</div><div class="block-sub">занятие с учителем — весь июнь</div></div>
+<div class="block food"><div class="block-time">14:00 — 14:30</div><div class="block-title">Обед</div></div>
+<div class="block music"><div class="block-time">14:30 — 15:30</div><div class="block-title">Музыка</div></div>
+<div class="block study"><div class="block-time">15:30 — 16:30</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">16:30 — 17:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">17:30 — 19:00</div><div class="block-title">Прогулка</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block rest"><div class="block-time">19:30 — 22:00</div><div class="block-title">Отдых</div><div class="block-sub">пятница — свободно</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="j-sat">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block study"><div class="block-time">10:00 — 11:00</div><div class="block-title">Турецкий</div></div>
+<div class="block study"><div class="block-time">11:00 — 12:00</div><div class="block-title">История</div></div>
+<div class="block study"><div class="block-time">12:00 — 13:00</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block food"><div class="block-time">13:00 — 13:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">13:30 — 14:30</div><div class="block-title">Обществознание</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">14:30 — 15:00</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">15:00 — 17:00</div><div class="block-title">Прогулка</div></div>
+<div class="block rest"><div class="block-time">17:00 — 22:30</div><div class="block-title">Свободное время</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="j-sun">
+<div class="free-day"><div class="big">Воскресенье</div><div class="small">свободный день</div></div>
+</div>
+</div>
+</div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-law)"></div>право</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-study)"></div>учёба</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-music)"></div>музыка</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-sport)"></div>спорт</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-walk)"></div>прогулка</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-rest)"></div>отдых</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-food)"></div>еда</div>
+</div>
+</div>
+
+<!-- ИЮЛЬ-АВГУСТ -->
+<div class="month-content" id="month-july">
+<nav class="days-nav">
+<button class="day-btn active" onclick="switchDay('ja-mon',this)">Пн</button>
+<button class="day-btn" onclick="switchDay('ja-tue',this)">Вт</button>
+<button class="day-btn" onclick="switchDay('ja-wed',this)">Ср</button>
+<button class="day-btn" onclick="switchDay('ja-thu',this)">Чт</button>
+<button class="day-btn" onclick="switchDay('ja-fri',this)">Пт</button>
+<button class="day-btn weekend" onclick="switchDay('ja-sat',this)">Сб</button>
+<button class="day-btn weekend" onclick="switchDay('ja-sun',this)">Вс</button>
+</nav>
+<div class="schedule-grid">
+<div class="timeline">
+<div class="time-slot"><span class="time-label">09:00</span></div>
+<div class="time-slot"><span class="time-label">09:30</span></div>
+<div class="time-slot"><span class="time-label">10:00</span></div>
+<div class="time-slot"><span class="time-label">11:00</span></div>
+<div class="time-slot"><span class="time-label">12:00</span></div>
+<div class="time-slot"><span class="time-label">13:00</span></div>
+<div class="time-slot"><span class="time-label">13:30</span></div>
+<div class="time-slot"><span class="time-label">14:30</span></div>
+<div class="time-slot"><span class="time-label">16:00</span></div>
+<div class="time-slot"><span class="time-label">17:30</span></div>
+<div class="time-slot"><span class="time-label">19:00</span></div>
+<div class="time-slot"><span class="time-label">19:30</span></div>
+<div class="time-slot"><span class="time-label">21:00</span></div>
+<div class="time-slot"><span class="time-label">22:30</span></div>
+</div>
+<div class="schedule-content">
+<div class="day-view active" id="ja-mon">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block study"><div class="block-time">10:00 — 11:00</div><div class="block-title">История</div></div>
+<div class="block study"><div class="block-time">11:00 — 12:00</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">12:00 — 13:00</div><div class="block-title">Обществознание + Право</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block food"><div class="block-time">13:00 — 13:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">13:30 — 14:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">14:30 — 16:00</div><div class="block-title">Прогулка</div></div>
+<div class="block rest"><div class="block-time">16:00 — 17:30</div><div class="block-title">Отдых</div><div class="block-sub">компьютер, телефон</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block study"><div class="block-time">19:30 — 21:00</div><div class="block-title">История</div><div class="block-sub">второй блок</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="ja-tue">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block study"><div class="block-time">10:00 — 11:00</div><div class="block-title">Турецкий</div></div>
+<div class="block music"><div class="block-time">11:00 — 12:00</div><div class="block-title">Музыка</div><div class="block-sub">игра + теория</div></div>
+<div class="block study"><div class="block-time">12:00 — 13:00</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block food"><div class="block-time">13:00 — 13:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">13:30 — 14:30</div><div class="block-title">Обществознание + Право</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">14:30 — 15:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">15:30 — 17:00</div><div class="block-title">Прогулка</div></div>
+<div class="block rest"><div class="block-time">17:00 — 19:00</div><div class="block-title">Отдых</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block study"><div class="block-time">19:30 — 21:00</div><div class="block-title">Турецкий</div><div class="block-sub">второй блок</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="ja-wed">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block study"><div class="block-time">10:00 — 11:00</div><div class="block-title">История</div></div>
+<div class="block study"><div class="block-time">11:00 — 12:00</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">12:00 — 13:00</div><div class="block-title">Обществознание + Право</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block food"><div class="block-time">13:00 — 13:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">13:30 — 14:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">14:30 — 16:00</div><div class="block-title">Прогулка</div></div>
+<div class="block rest"><div class="block-time">16:00 — 17:30</div><div class="block-title">Отдых</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block study"><div class="block-time">19:30 — 21:00</div><div class="block-title">История</div><div class="block-sub">второй блок</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="ja-thu">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block study"><div class="block-time">10:00 — 11:00</div><div class="block-title">Турецкий</div></div>
+<div class="block music"><div class="block-time">11:00 — 12:00</div><div class="block-title">Музыка</div><div class="block-sub">игра + теория</div></div>
+<div class="block study"><div class="block-time">12:00 — 13:00</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block food"><div class="block-time">13:00 — 13:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">13:30 — 14:30</div><div class="block-title">Обществознание + Право</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">14:30 — 15:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">15:30 — 17:00</div><div class="block-title">Прогулка</div></div>
+<div class="block rest"><div class="block-time">17:00 — 19:00</div><div class="block-title">Отдых</div></div>
+<div class="block food"><div class="block-time">19:00 — 19:30</div><div class="block-title">Ужин</div></div>
+<div class="block study"><div class="block-time">19:30 — 21:00</div><div class="block-title">Турецкий</div><div class="block-sub">второй блок</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="ja-fri">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка + бег</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block study"><div class="block-time">10:00 — 11:00</div><div class="block-title">История</div></div>
+<div class="block study"><div class="block-time">11:00 — 12:00</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">12:00 — 13:00</div><div class="block-title">Обществознание + Право</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block food"><div class="block-time">13:00 — 13:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">13:30 — 14:30</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">14:30 — 16:00</div><div class="block-title">Прогулка</div></div>
+<div class="block rest"><div class="block-time">16:00 — 22:00</div><div class="block-title">Отдых</div><div class="block-sub">пятница — свободно</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="ja-sat">
+<div class="block sport"><div class="block-time">09:00 — 09:30</div><div class="block-title">Зарядка</div></div>
+<div class="block food"><div class="block-time">09:30 — 10:00</div><div class="block-title">Завтрак</div></div>
+<div class="block study"><div class="block-time">10:00 — 11:00</div><div class="block-title">Турецкий</div></div>
+<div class="block music"><div class="block-time">11:00 — 12:00</div><div class="block-title">Музыка</div></div>
+<div class="block study"><div class="block-time">12:00 — 13:00</div><div class="block-title">Английский</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block food"><div class="block-time">13:00 — 13:30</div><div class="block-title">Обед</div></div>
+<div class="block study"><div class="block-time">13:30 — 14:30</div><div class="block-title">Обществознание + Право</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block study"><div class="block-time">14:30 — 15:00</div><div class="block-title">Чтение</div><div class="block-sub daily-tag">каждый день</div></div>
+<div class="block walk"><div class="block-time">15:00 — 17:00</div><div class="block-title">Прогулка</div></div>
+<div class="block rest"><div class="block-time">17:00 — 22:30</div><div class="block-title">Свободное время</div></div>
+<div class="block sleep"><div class="block-time">22:30</div><div class="block-title">Сон</div></div>
+</div>
+<div class="day-view" id="ja-sun">
+<div class="free-day"><div class="big">Воскресенье</div><div class="small">свободный день</div></div>
+</div>
+</div>
+</div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-study)"></div>учёба</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-music)"></div>музыка</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-sport)"></div>спорт</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-walk)"></div>прогулка</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-rest)"></div>отдых</div>
+<div class="legend-item"><div class="legend-dot" style="background:var(--block-food)"></div>еда</div>
+</div>
+</div>
+</div>
+
+<!-- ТРЕКЕР ЛЕТО -->
+<div class="page" id="s-tracker">
+<div class="section-page">
+<div class="section-header">
+<div class="section-title">Трекер недели</div>
+<div class="week-nav">
+<button onclick="changeWeek(-1)">←</button>
+<span id="weekLabel">—</span>
+<button onclick="changeWeek(1)">→</button>
+</div>
+</div>
+<div class="tracker-grid" id="trackerGrid"></div>
+<div class="progress-row">
+<span id="progressLabel">0 / 0</span>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<span id="progressPct">0%</span>
+</div>
+</div>
+</div>
+
+<!-- ДНЕВНИК -->
+<div class="page" id="s-diary">
+<div class="section-page">
+<div class="section-header">
+<div class="section-title">Дневник дня</div>
+<div class="diary-nav">
+<button onclick="changeDiaryDay(-1)">←</button>
+<span id="diaryDateLabel">—</span>
+<button onclick="changeDiaryDay(1)">→</button>
+</div>
+</div>
+<div class="diary-card">
+<div class="diary-label">Как прошёл день?</div>
+<div class="diary-mood">
+<button class="mood-btn" onclick="setMood(1)" title="Плохо">😞</button>
+<button class="mood-btn" onclick="setMood(2)" title="Так себе">😐</button>
+<button class="mood-btn" onclick="setMood(3)" title="Нормально">🙂</button>
+<button class="mood-btn" onclick="setMood(4)" title="Хорошо">😊</button>
+<button class="mood-btn" onclick="setMood(5)" title="Отлично">🔥</button>
+</div>
+<div class="diary-label">Лучший момент дня</div>
+<textarea class="diary-textarea" id="diaryMoment" rows="2" placeholder="Что было классного сегодня?"></textarea>
+<div class="diary-label">Заметки</div>
+<textarea class="diary-textarea" id="diaryNotes" rows="3" placeholder="Мысли, события, что угодно..."></textarea>
+<button class="diary-save" onclick="saveDiary()">Сохранить</button>
+<span class="diary-saved" id="diarySaved">✓ сохранено</span>
+</div>
+</div>
+</div>
+
+<!-- ЦЕЛИ -->
+<div class="page" id="s-goals">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Цели</div><button class="add-btn" onclick="addItem('goals')">+ добавить</button></div>
+<div class="list-items" id="goals-list"></div>
+<div class="empty-state" id="goals-empty">Пока нет целей!</div>
+<div class="list-stats" id="goals-stats" style="display:none">Выполнено: <span id="goals-done">0</span> из <span id="goals-total">0</span></div>
+</div>
+</div>
+
+<!-- КНИГИ -->
+<div class="page" id="s-books">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Книги</div><button class="add-btn" onclick="addItem('books')">+ добавить книгу</button></div>
+<div class="list-items" id="books-list"></div>
+<div class="empty-state" id="books-empty">Список пуст!</div>
+<div class="list-stats" id="books-stats" style="display:none">Прочитано: <span id="books-done">0</span> из <span id="books-total">0</span></div>
+</div>
+</div>
+
+<!-- ФИЛЬМЫ -->
+<div class="page" id="s-films">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Фильмы</div><button class="add-btn" onclick="addItem('films')">+ добавить фильм</button></div>
+<div class="list-items" id="films-list"></div>
+<div class="empty-state" id="films-empty">Список пуст!</div>
+<div class="list-stats" id="films-stats" style="display:none">Просмотрено: <span id="films-done">0</span> из <span id="films-total">0</span></div>
+</div>
+</div>
+
+<!-- СЕРИАЛЫ -->
+<div class="page" id="s-series">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Сериалы</div><button class="add-btn" onclick="addItem('series')">+ добавить сериал</button></div>
+<div class="list-items" id="series-list"></div>
+<div class="empty-state" id="series-empty">Список пуст!</div>
+<div class="list-stats" id="series-stats" style="display:none">Просмотрено: <span id="series-done">0</span> из <span id="series-total">0</span></div>
+</div>
+</div>
+
+<!-- ПОДКАСТЫ -->
+<div class="page" id="s-podcasts">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Подкасты</div><button class="add-btn" onclick="addItem('podcasts')">+ добавить подкаст</button></div>
+<div class="list-items" id="podcasts-list"></div>
+<div class="empty-state" id="podcasts-empty">Список пуст!</div>
+<div class="list-stats" id="podcasts-stats" style="display:none">Прослушано: <span id="podcasts-done">0</span> из <span id="podcasts-total">0</span></div>
+</div>
+</div>
+
+<!-- ФИНАНСЫ -->
+<div class="page" id="s-finance">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Финансы</div></div>
+<div class="finance-grid">
+<div class="finance-card">
+<h3>Баланс</h3>
+<div class="finance-amount" id="finBalance">0 ₽</div>
+<div class="finance-sub">доходы − расходы</div>
+<div class="finance-input-row">
+<input type="number" id="finAmount" placeholder="Сумма" min="0">
+<input type="text" id="finDesc" placeholder="Описание">
+<select id="finType" style="font-family:'DM Mono',monospace;font-size:11px;border:none;border-bottom:1px solid var(--line);background:none;color:var(--text);padding:5px 3px;outline:none;">
+<option value="income">+ доход</option>
+<option value="expense">− расход</option>
+</select>
+<button onclick="addTransaction()">добавить</button>
+</div>
+<div class="tx-list" id="txList"></div>
+</div>
+<div class="finance-card">
+<h3>Цель накоплений</h3>
+<div id="savingsGoalBlock">
+<div class="empty-state" style="padding:20px 0">Цель не задана</div>
+</div>
+<div class="finance-input-row" style="margin-top:12px">
+<input type="text" id="savGoalName" placeholder="Название цели">
+<input type="number" id="savGoalAmt" placeholder="Сумма ₽" min="0">
+<button onclick="setSavingsGoal()">задать</button>
+</div>
+<h3 style="margin-top:20px">Список покупок</h3>
+<div class="list-items" id="shopList" style="margin-top:8px"></div>
+<div class="finance-input-row">
+<input type="text" id="shopItem" placeholder="Что купить?">
+<button onclick="addShopItem()">+ добавить</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ОТСЧЁТЫ -->
+<div class="page" id="s-countdowns">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Обратные отсчёты</div></div>
+<div class="cd-grid" id="cdGrid"></div>
+<div class="empty-state" id="cdEmpty" style="display:none">Добавь первое событие!</div>
+<div class="cd-form">
+<input type="text" id="cdName" placeholder="Название события" maxlength="40">
+<input type="date" id="cdDate">
+<button onclick="addCountdown()">+ добавить</button>
+</div>
+</div>
+</div>
+
+<!-- ИДЕИ -->
+<div class="page" id="s-ideas">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Вопросы и идеи</div></div>
+<div class="ideas-tabs">
+<button class="ideas-tab active" onclick="switchIdeasTab('questions',this)">Вопросы</button>
+<button class="ideas-tab" onclick="switchIdeasTab('knowledge',this)">База знаний</button>
+</div>
+<div class="ideas-panel active" id="ideas-questions">
+<div class="ideas-add">
+<input type="text" id="qInput" placeholder="Интересный вопрос...">
+<button class="add-btn" onclick="addQuestion()">+ добавить</button>
+</div>
+<div id="questionsList"></div>
+<div class="empty-state" id="questionsEmpty">Записывай вопросы которые хочешь изучить!</div>
+</div>
+<div class="ideas-panel" id="ideas-knowledge">
+<div class="ideas-add">
+<input type="text" id="kInput" placeholder="Тема или факт...">
+<button class="add-btn" onclick="addKnowledge()">+ добавить</button>
+</div>
+<div id="knowledgeList"></div>
+<div class="empty-state" id="knowledgeEmpty">Записывай что узнал нового!</div>
+</div>
+</div>
+</div>
+
+<!-- СЛОВАРЬ ДАТ -->
+<div class="page" id="s-dates">
+<div class="section-page">
+<div class="section-header"><div class="section-title">Словарь дат</div></div>
+<div class="dict-add-form">
+<input type="text" id="dictDate" placeholder="Дата (напр. 1812)">
+<input type="text" id="dictEvent" placeholder="Событие">
+<button class="add-btn" onclick="addDictDate()">+ добавить</button>
+</div>
+<input type="text" class="dict-search" id="dictSearch" placeholder="Поиск по дате или событию..." oninput="renderDates()">
+<div class="dict-list" id="dictList"></div>
+<div class="empty-state" id="dictEmpty">Добавь первую дату!</div>
+</div>
+</div>
+</div>
+
+
+<script>
+// ── STORAGE ──
+const S = {
+get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+set: (k,v) => { try { localStorage.setItem(k,JSON.stringify(v)); } catch {} }
+};
+
+// ── COUNTDOWN HEADER ──
+function updateHeaderCd() {
+const now = new Date(); now.setHours(0,0,0,0);
+const mode = document.querySelector('.mode-btn.active').textContent.includes('Лето') ? 'summer' : 'school';
+if (mode === 'summer') {
+const start = new Date('2026-06-01');
+const end = new Date('2026-09-01');
+let num, label;
+if (now < start) { num = Math.ceil((start-now)/86400000); label = 'до лета'; }
+else if (now < end) { num = Math.ceil((end-now)/86400000); label = 'дней лета'; }
+else { num = 0; label = 'лето кончилось'; }
+document.getElementById('cdNum').textContent = num;
+document.getElementById('cdLabel').textContent = label;
+} else {
+const end = new Date('2027-05-26');
+const num = Math.max(0, Math.ceil((end-now)/86400000));
+document.getElementById('cdNum').textContent = num;
+document.getElementById('cdLabel').textContent = 'до конца года';
+}
+}
+
+// ── MODE SWITCH ──
+function switchMode(mode, btn) {
+document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.mode-content').forEach(c=>c.classList.remove('active'));
+btn.classList.add('active');
+document.getElementById('mode-'+mode).classList.add('active');
+if (mode === 'summer') {
+document.getElementById('headerTitle').textContent = 'Лето 2026';
+document.getElementById('headerSub').textContent = 'личное расписание';
+document.getElementById('headerMeta').innerHTML = 'подъём <span style="color:var(--accent)">09:00</span><br>учёба <span style="color:var(--accent)">5–6 ч / день</span><br>прогулка <span style="color:var(--accent)">каждый день</span>';
+} else {
+document.getElementById('headerTitle').textContent = '7Б · 2026–2027';
+document.getElementById('headerSub').textContent = 'школьное расписание';
+document.getElementById('headerMeta').innerHTML = 'начало <span style="color:var(--accent)">08:30</span><br>уроков <span style="color:var(--accent)">до 8 / день</span><br>суббота <span style="color:var(--accent)">учебная</span>';
+}
+updateHeaderCd();
+}
+
+// ── PAGE SWITCH ──
+function switchPage(id, btn, mode) {
+const container = document.getElementById('mode-'+mode);
+container.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+container.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+btn.classList.add('active');
+if (id==='s-tracker'||id==='sc-tracker') renderTracker();
+if (id==='s-diary'||id==='sc-diary') renderDiary();
+if (id==='s-finance'||id==='sc-finance') renderFinance();
+if (id==='s-countdowns') renderCountdowns('cdGrid','cdEmpty');
+if (id==='sc-countdowns') renderCountdowns('cdGrid2','cdEmpty2');
+['goals','books','films','series','podcasts'].forEach(type => {
+if (id==='s-'+type||id==='sc-'+type) renderList(type);
+});
+if (id==='s-ideas'||id==='sc-ideas') { renderQuestions(); renderKnowledge(); }
+if (id==='s-dates'||id==='sc-dates') { renderDates(); renderDates2(); }
+}
+
+// ── DAY SWITCH ──
+function switchDay(id, btn) {
+const parent = btn.closest('.days-nav');
+parent.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+// find sibling schedule-content
+const grid = parent.nextElementSibling || parent.parentElement.querySelector('.schedule-grid');
+if (grid) grid.querySelectorAll('.day-view').forEach(d=>d.classList.remove('active'));
+const el = document.getElementById(id);
+if (el) el.classList.add('active');
+}
+
+// ── MONTH SWITCH ──
+function switchMonth(id, btn) {
+document.querySelectorAll('.month-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.month-content').forEach(c=>c.classList.remove('active'));
+btn.classList.add('active');
+document.getElementById('month-'+id).classList.add('active');
+}
+
+// ── TRACKER ──
+const SUBJECTS = [
+{ name:'Английский', color:'#c8a96e', days:[0,1,2,3,4,5] },
+{ name:'Право + Общество', color:'#9eb8c8', days:[0,1,2,3,4,5] },
+{ name:'Чтение', color:'#a8c89e', days:[0,1,2,3,4,5] },
+{ name:'История', color:'#c89ea8', days:[0,2,4] },
+{ name:'Турецкий', color:'#b8a8c8', days:[1,3,5] },
+{ name:'Музыка', color:'#c8b89e', days:[1,3,5] },
+{ name:'Зарядка', color:'#9ec8a8', days:[0,1,2,3,4,5] },
+];
+let weekOffset = 0;
+function getWeekDates(off) {
+const now = new Date(); const day = now.getDay();
+const mon = new Date(now);
+mon.setDate(now.getDate()-(day===0?6:day-1)+off*7);
+mon.setHours(0,0,0,0);
+return Array.from({length:7},(_,i)=>{ const d=new Date(mon); d.setDate(mon.getDate()+i); return d; });
+}
+function dk(d) { return d.toISOString().slice(0,10); }
+function changeWeek(dir) { weekOffset+=dir; renderTracker(); }
+function toggleCheck(si,dateStr) {
+const data=S.get('tracker')||{};
+data[dateStr+'_'+si]=!data[dateStr+'_'+si];
+S.set('tracker',data); renderTracker();
+}
+function renderTracker() {
+const dates=getWeekDates(weekOffset);
+const dayNames=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+const data=S.get('tracker')||{};
+const fmt=d=>d.getDate()+'.'+(d.getMonth()+1+'').padStart(2,'0');
+['weekLabel','weekLabel2'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=fmt(dates[0])+' — '+fmt(dates[6]); });
+['trackerGrid','trackerGrid2'].forEach(gridId=>{
+const grid=document.getElementById(gridId); if(!grid) return;
+grid.innerHTML='';
+const hr=document.createElement('div'); hr.className='tracker-row header-row';
+hr.innerHTML='<div class="tracker-cell" style="justify-content:flex-start;padding-left:12px">Предмет</div>';
+const todayStr=dk(new Date());
+dates.forEach((d,i)=>{ hr.innerHTML+=`<div class="tracker-cell${i===6?' sunday':''}" style="${dk(d)===todayStr?'color:var(--accent);font-weight:400':''}">${dayNames[i]}<br><span style="font-size:9px;letter-spacing:0">${fmt(d)}</span></div>`; });
+grid.appendChild(hr);
+let total=0,done=0;
+SUBJECTS.forEach((sub,si)=>{
+const row=document.createElement('div'); row.className='tracker-row';
+row.innerHTML=`<div class="tracker-cell subject"><div class="dot" style="background:${sub.color}"></div>${sub.name}</div>`;
+dates.forEach((d,di)=>{
+const cell=document.createElement('div'); cell.className='tracker-cell'+(di===6?' sunday':'');
+if(!sub.days.includes(di)) { const b=document.createElement('button'); b.className='check-btn na'; b.textContent='–'; cell.appendChild(b); }
+else { const k=dk(d)+'_'+si; const checked=!!data[k]; if(checked) done++; total++;
+const b=document.createElement('button'); b.className='check-btn'+(checked?' checked':''); b.textContent=checked?'✓':''; b.onclick=()=>toggleCheck(si,dk(d)); cell.appendChild(b); }
+row.appendChild(cell);
+});
+grid.appendChild(row);
+});
+const pct=total?Math.round(done/total*100):0;
+const sfx=gridId==='trackerGrid2'?'2':'';
+const pl=document.getElementById('progressLabel'+sfx); if(pl) pl.textContent=`${done} / ${total} выполнено`;
+const pf=document.getElementById('progressFill'+sfx); if(pf) pf.style.width=pct+'%';
+const pp=document.getElementById('progressPct'+sfx); if(pp) pp.textContent=pct+'%';
+});
+}
+
+// ── DIARY ──
+let diaryOffset = 0;
+function getDiaryDate(off) { const d=new Date(); d.setDate(d.getDate()+off); return d; }
+function dkDate(d) { return d.toISOString().slice(0,10); }
+function changeDiaryDay(dir) { diaryOffset+=dir; renderDiary(); }
+function setMood(val) {
+const d=getDiaryDate(diaryOffset); const key='diary_'+dkDate(d);
+const entry=S.get(key)||{}; entry.mood=val; S.set(key,entry);
+document.querySelectorAll('.mood-btn').forEach((b,i)=>b.classList.toggle('selected',i+1===val));
+}
+function saveDiary() {
+const d=getDiaryDate(diaryOffset); const key='diary_'+dkDate(d);
+const entry=S.get(key)||{};
+entry.moment=document.getElementById('diaryMoment').value;
+entry.notes=document.getElementById('diaryNotes').value;
+S.set(key,entry);
+const saved=document.getElementById('diarySaved'); saved.style.opacity='1';
+setTimeout(()=>saved.style.opacity='0',2000);
+}
+function saveDiary2() {
+const d=getDiaryDate(diaryOffset); const key='diary_'+dkDate(d);
+const entry=S.get(key)||{};
+entry.moment=document.getElementById('diaryMoment2').value;
+entry.notes=document.getElementById('diaryNotes2').value;
+S.set(key,entry);
+const saved=document.getElementById('diarySaved2'); saved.style.opacity='1';
+setTimeout(()=>saved.style.opacity='0',2000);
+}
+function renderDiary() {
+const d=getDiaryDate(diaryOffset); const key='diary_'+dkDate(d);
+const entry=S.get(key)||{};
+const label=d.toLocaleDateString('ru',{weekday:'long',day:'numeric',month:'long'});
+['diaryDateLabel','diaryDateLabel2'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=label; });
+['diaryMoment','diaryMoment2'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=entry.moment||''; });
+['diaryNotes','diaryNotes2'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=entry.notes||''; });
+document.querySelectorAll('.mood-btn').forEach((b,i)=>b.classList.toggle('selected',i+1===entry.mood));
+}
+
+// ── GENERIC LIST ──
+const ICONS = { goals:'🎯', books:'📖', films:'🎬', series:'📺', podcasts:'🎧' };
+function addItem(type) {
+const items=S.get(type)||[]; items.push({id:Date.now(),text:'',done:false}); S.set(type,items);
+renderList(type);
+setTimeout(()=>{ const ins=document.querySelectorAll('.item-text'); if(ins.length) ins[ins.length-1].focus(); },50);
+}
+function toggleItem(type,id) { const items=S.get(type)||[]; const f=items.find(x=>x.id===id); if(f) f.done=!f.done; S.set(type,items); renderList(type); }
+function deleteItem(type,id) { S.set(type,(S.get(type)||[]).filter(x=>x.id!==id)); renderList(type); }
+function updateItem(type,id,text) { const items=S.get(type)||[]; const f=items.find(x=>x.id===id); if(f) f.text=text; S.set(type,items); }
+function renderList(type) {
+const items=S.get(type)||[];
+['','-list2','-list'].forEach(sfx=>{
+const listEl=document.getElementById(type+(sfx==='-list'?'-list':sfx==='2'?'-list2':'-list'));
+// just try both suffixes
+});
+[type+'-list', type+'-list2'].forEach(listId=>{
+const listEl=document.getElementById(listId); if(!listEl) return;
+listEl.innerHTML='';
+const suffix=listId.endsWith('2')?'2':'';
+const emptyEl=document.getElementById(type+'-empty'+suffix);
+const statsEl=document.getElementById(type+'-stats'+suffix);
+if(!items.length){ if(emptyEl) emptyEl.style.display='block'; if(statsEl) statsEl.style.display='none'; return; }
+if(emptyEl) emptyEl.style.display='none';
+if(statsEl) { statsEl.style.display='block'; const done=items.filter(i=>i.done).length;
+const dEl=document.getElementById(type+'-done'+suffix); if(dEl) dEl.textContent=done;
+const tEl=document.getElementById(type+'-total'+suffix); if(tEl) tEl.textContent=items.length; }
+items.forEach(item=>{
+const el=document.createElement('div'); el.className='list-item'+(item.done?' done':'');
+const chk=document.createElement('button'); chk.className='item-check'+(type==='books'||type==='goals'?'':' square')+(item.done?' checked':''); chk.textContent=item.done?'✓':''; chk.onclick=()=>toggleItem(type,item.id);
+const icon=document.createElement('span'); icon.className='item-icon'; icon.textContent=ICONS[type]||'•';
+const inp=document.createElement('input'); inp.className='item-text'; inp.type='text'; inp.value=item.text; inp.placeholder='Введи название...'; inp.oninput=()=>updateItem(type,item.id,inp.value);
+const del=document.createElement('button'); del.className='item-delete'; del.textContent='×'; del.onclick=()=>deleteItem(type,item.id);
+el.appendChild(chk); el.appendChild(icon); el.appendChild(inp); el.appendChild(del); listEl.appendChild(el);
+});
+});
+}
+
+// ── FINANCE ──
+function addTransaction() {
+const amt=parseFloat(document.getElementById('finAmount').value);
+const desc=document.getElementById('finDesc').value.trim();
+const type=document.getElementById('finType').value;
+if(!amt||!desc) return;
+const txs=S.get('transactions')||[];
+txs.unshift({id:Date.now(),amt,desc,type,date:new Date().toLocaleDateString('ru')});
+S.set('transactions',txs);
+document.getElementById('finAmount').value=''; document.getElementById('finDesc').value='';
+renderFinance();
+}
+function deleteTransaction(id) { S.set('transactions',(S.get('transactions')||[]).filter(x=>x.id!==id)); renderFinance(); }
+function setSavingsGoal() {
+const name=document.getElementById('savGoalName').value.trim();
+const amt=parseFloat(document.getElementById('savGoalAmt').value);
+if(!name||!amt) return;
+S.set('savingsGoal',{name,target:amt});
+document.getElementById('savGoalName').value=''; document.getElementById('savGoalAmt').value='';
+renderFinance();
+}
+function addShopItem() {
+const text=document.getElementById('shopItem').value.trim(); if(!text) return;
+const items=S.get('shopList')||[]; items.push({id:Date.now(),text,done:false}); S.set('shopList',items);
+document.getElementById('shopItem').value=''; renderFinance();
+}
+function toggleShop(id) { const items=S.get('shopList')||[]; const f=items.find(x=>x.id===id); if(f) f.done=!f.done; S.set('shopList',items); renderFinance(); }
+function deleteShop(id) { S.set('shopList',(S.get('shopList')||[]).filter(x=>x.id!==id)); renderFinance(); }
+function renderFinance() {
+const txs=S.get('transactions')||[];
+const balance=txs.reduce((acc,t)=>t.type==='income'?acc+t.amt:acc-t.amt,0);
+const balEl=document.getElementById('finBalance'); if(balEl) balEl.textContent=(balance>=0?'+':'')+balance.toFixed(0)+' ₽';
+const txList=document.getElementById('txList'); if(txList){ txList.innerHTML='';
+txs.forEach(t=>{ const el=document.createElement('div'); el.className='tx-item';
+el.innerHTML=`<span class="tx-desc">${t.desc}</span><span style="color:var(--muted);font-size:10px">${t.date}</span><span class="tx-amt ${t.type}">${t.type==='income'?'+':'-'}${t.amt.toFixed(0)} ₽</span><button class="tx-del" onclick="deleteTransaction(${t.id})">×</button>`;
+txList.appendChild(el); }); }
+const goal=S.get('savingsGoal');
+const goalBlock=document.getElementById('savingsGoalBlock');
+if(goalBlock){ if(goal){
+const saved=Math.max(0,txs.filter(t=>t.type==='income').reduce((a,t)=>a+t.amt,0));
+const pct=Math.min(100,Math.round(saved/goal.target*100));
+goalBlock.innerHTML=`<div class="savings-goal-name">${goal.name}</div><div class="savings-bar"><div class="savings-fill" style="width:${pct}%"></div></div><div class="savings-nums"><span>${saved.toFixed(0)} ₽</span> из ${goal.target.toFixed(0)} ₽ · ${pct}%</div>`;
+} else { goalBlock.innerHTML='<div class="empty-state" style="padding:16px 0;font-size:10px">Цель не задана</div>'; } }
+const shopList=document.getElementById('shopList'); if(shopList){ shopList.innerHTML='';
+const items=S.get('shopList')||[];
+items.forEach(item=>{ const el=document.createElement('div'); el.className='list-item'+(item.done?' done':''); el.style.padding='8px 12px'; el.style.marginBottom='5px';
+el.innerHTML=`<button class="item-check square${item.done?' checked':''}" onclick="toggleShop(${item.id})" style="font-size:10px">${item.done?'✓':''}</button><span class="item-icon">🛒</span><span style="flex:1;font-size:12px;${item.done?'text-decoration:line-through;opacity:.5':''}">${item.text}</span><button class="item-delete" onclick="deleteShop(${item.id})" style="opacity:1">×</button>`;
+shopList.appendChild(el); }); }
+}
+
+// ── COUNTDOWNS ──
+function addCountdown() {
+const name=document.getElementById('cdName').value.trim();
+const date=document.getElementById('cdDate').value;
+if(!name||!date) return;
+const cds=S.get('countdowns')||[]; cds.push({id:Date.now(),name,date}); S.set('countdowns',cds);
+document.getElementById('cdName').value=''; document.getElementById('cdDate').value='';
+renderCountdowns('cdGrid','cdEmpty');
+}
+function addCountdown2() {
+const name=document.getElementById('cdName2').value.trim();
+const date=document.getElementById('cdDate2').value;
+if(!name||!date) return;
+const cds=S.get('countdowns2')||[]; cds.push({id:Date.now(),name,date}); S.set('countdowns2',cds);
+document.getElementById('cdName2').value=''; document.getElementById('cdDate2').value='';
+renderCountdowns('cdGrid2','cdEmpty2','countdowns2');
+}
+function deleteCountdown(id,key) { S.set(key||'countdowns',(S.get(key||'countdowns')||[]).filter(x=>x.id!==id)); renderCountdowns('cdGrid','cdEmpty'); }
+function deleteCountdown2(id) { S.set('countdowns2',(S.get('countdowns2')||[]).filter(x=>x.id!==id)); renderCountdowns('cdGrid2','cdEmpty2','countdowns2'); }
+function renderCountdowns(gridId,emptyId,key) {
+key=key||'countdowns';
+const cds=S.get(key)||[];
+const grid=document.getElementById(gridId); if(!grid) return;
+const empty=document.getElementById(emptyId);
+grid.innerHTML='';
+if(!cds.length){ if(empty) empty.style.display='block'; return; }
+if(empty) empty.style.display='none';
+const now=new Date(); now.setHours(0,0,0,0);
+cds.forEach(cd=>{
+const target=new Date(cd.date); target.setHours(0,0,0,0);
+const diff=Math.ceil((target-now)/86400000); const past=diff<0;
+const card=document.createElement('div'); card.className='cd-card';
+const delFn=key==='countdowns2'?`deleteCountdown2(${cd.id})`:`deleteCountdown(${cd.id},'${key}')`;
+card.innerHTML=`<button class="cd-del" onclick="${delFn}">×</button><div class="cd-num${past?' cd-past':''}">${past?'—':diff}</div><div class="cd-unit">${past?'прошло':'дней'}</div><div class="cd-name">${cd.name}</div><div class="cd-date">${target.toLocaleDateString('ru',{day:'numeric',month:'long',year:'numeric'})}</div>`;
+grid.appendChild(card);
+});
+}
+
+// ── IDEAS ──
+function addQuestion() { const t=document.getElementById('qInput').value.trim(); if(!t) return; const q=S.get('questions')||[]; q.push({id:Date.now(),text:t,answer:''}); S.set('questions',q); document.getElementById('qInput').value=''; renderQuestions(); }
+function deleteQuestion(id) { S.set('questions',(S.get('questions')||[]).filter(x=>x.id!==id)); renderQuestions(); }
+function updateAnswer(id,val) { const q=S.get('questions')||[]; const f=q.find(x=>x.id===id); if(f) f.answer=val; S.set('questions',q); }
+function renderQuestions() {
+['questionsList','questionsList2'].forEach(listId=>{
+const list=document.getElementById(listId); if(!list) return;
+const q=S.get('questions')||[];
+const sfx=listId.endsWith('2')?'2':'';
+document.getElementById('questionsEmpty'+sfx).style.display=q.length?'none':'block';
+list.innerHTML='';
+q.forEach(item=>{ const el=document.createElement('div'); el.className='idea-item';
+el.innerHTML=`<div class="idea-q">${item.text}<br><textarea class="idea-answer" rows="2" placeholder="Ответ/заметка..." onchange="updateAnswer(${item.id},this.value)">${item.answer||''}</textarea></div><button class="idea-del" onclick="deleteQuestion(${item.id})">×</button>`;
+list.appendChild(el); });
+});
+}
+function addKnowledge() { const t=document.getElementById('kInput').value.trim(); if(!t) return; const k=S.get('knowledge')||[]; k.push({id:Date.now(),text:t}); S.set('knowledge',k); document.getElementById('kInput').value=''; renderKnowledge(); }
+function deleteKnowledge(id) { S.set('knowledge',(S.get('knowledge')||[]).filter(x=>x.id!==id)); renderKnowledge(); }
+function renderKnowledge() {
+['knowledgeList','knowledgeList2'].forEach(listId=>{
+const list=document.getElementById(listId); if(!list) return;
+const k=S.get('knowledge')||[];
+const sfx=listId.endsWith('2')?'2':'';
+document.getElementById('knowledgeEmpty'+sfx).style.display=k.length?'none':'block';
+list.innerHTML='';
+k.forEach(item=>{ const el=document.createElement('div'); el.className='idea-item';
+el.innerHTML=`<div class="idea-q">💡 ${item.text}</div><button class="idea-del" onclick="deleteKnowledge(${item.id})">×</button>`;
+list.appendChild(el); });
+});
+}
+function addQuestion2() { const t=document.getElementById('qInput2').value.trim(); if(!t) return; const q=S.get('questions')||[]; q.push({id:Date.now(),text:t,answer:''}); S.set('questions',q); document.getElementById('qInput2').value=''; renderQuestions(); }
+function addKnowledge2() { const t=document.getElementById('kInput2').value.trim(); if(!t) return; const k=S.get('knowledge')||[]; k.push({id:Date.now(),text:t}); S.set('knowledge',k); document.getElementById('kInput2').value=''; renderKnowledge(); }
+function switchIdeasTab(id,btn) {
+document.querySelectorAll('#s-ideas .ideas-tab').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('#s-ideas .ideas-panel').forEach(p=>p.classList.remove('active'));
+btn.classList.add('active'); document.getElementById('ideas-'+id).classList.add('active');
+}
+function switchIdeasTab2(id,btn) {
+document.querySelectorAll('#sc-ideas .ideas-tab').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('#sc-ideas .ideas-panel').forEach(p=>p.classList.remove('active'));
+btn.classList.add('active'); document.getElementById('ideas-'+id).classList.add('active');
+}
+
+// ── DATES DICT ──
+function addDictDate() { const d=document.getElementById('dictDate').value.trim(); const e=document.getElementById('dictEvent').value.trim(); if(!d||!e) return; const dates=S.get('histdates')||[]; dates.push({id:Date.now(),date:d,event:e}); S.set('histdates',dates); document.getElementById('dictDate').value=''; document.getElementById('dictEvent').value=''; renderDates(); }
+function addDictDate2() { const d=document.getElementById('dictDate2').value.trim(); const e=document.getElementById('dictEvent2').value.trim(); if(!d||!e) return; const dates=S.get('histdates')||[]; dates.push({id:Date.now(),date:d,event:e}); S.set('histdates',dates); document.getElementById('dictDate2').value=''; document.getElementById('dictEvent2').value=''; renderDates2(); renderDates(); }
+function deleteDate(id) { S.set('histdates',(S.get('histdates')||[]).filter(x=>x.id!==id)); renderDates(); renderDates2(); }
+function renderDates() {
+const list=document.getElementById('dictList'); if(!list) return;
+const q=(document.getElementById('dictSearch')||{}).value||'';
+const all=S.get('histdates')||[];
+const filtered=all.filter(x=>x.date.toLowerCase().includes(q.toLowerCase())||x.event.toLowerCase().includes(q.toLowerCase()));
+document.getElementById('dictEmpty').style.display=filtered.length?'none':'block';
+list.innerHTML='';
+filtered.sort((a,b)=>a.date.localeCompare(b.date)).forEach(item=>{ const el=document.createElement('div'); el.className='dict-item'; el.innerHTML=`<span class="dict-date">${item.date}</span><span class="dict-event">${item.event}</span><button class="dict-del" onclick="deleteDate(${item.id})">×</button>`; list.appendChild(el); });
+}
+function renderDates2() {
+const list=document.getElementById('dictList2'); if(!list) return;
+const q=(document.getElementById('dictSearch2')||{}).value||'';
+const all=S.get('histdates')||[];
+const filtered=all.filter(x=>x.date.toLowerCase().includes(q.toLowerCase())||x.event.toLowerCase().includes(q.toLowerCase()));
+document.getElementById('dictEmpty2').style.display=filtered.length?'none':'block';
+list.innerHTML='';
+filtered.sort((a,b)=>a.date.localeCompare(b.date)).forEach(item=>{ const el=document.createElement('div'); el.className='dict-item'; el.innerHTML=`<span class="dict-date">${item.date}</span><span class="dict-event">${item.event}</span><button class="dict-del" onclick="deleteDate(${item.id})">×</button>`; list.appendChild(el); });
+}
+
+// ── INIT ──
+updateHeaderCd();
+renderDiary();
+</script>
+</body>
+</html>
